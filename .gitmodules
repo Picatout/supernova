@@ -1,0 +1,6 @@
+[submodule "SendFile"]
+	path = SendFile
+	url = https://github.com/picatout/SendFile
+[submodule "stm8_eForth"]
+	path = stm8_eForth
+	url = https://github.com/picatout/stm8_eForth
