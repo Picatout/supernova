@@ -40,17 +40,41 @@ FORGET R16!
     + ( -- u ) \ nearest integer
 ; 
 
-8 WTABLE INTENSITY 
- 
 
-VARIABLE PHASE \ supernova wave phase 
+: ARRAY ( size -- ; string ) \ create an array, not initialized 
+    HERE 
+    DUP 
+    ROT 
+    2* 
+    + 
+    VP 
+    ! 
+    CREATE 
+    , 
+; 
+
+: ARRAY! ( n idx a -- ) \ store value n in a[idx]
+    SWAP 2* + !
+;
+
+: ARRAY@ ( idx a -- n ) \ fetch value in a[idx]
+    SWAP 2* + @
+;
 
 
-: INIT-ADC ( -- ) \ initialize ADC1 
+
+
+: INTENSITY-INIT ( -- ) \ initialize intensity table 
+    $FFFF $8000 $4000 $2000 $1000 $800 $400 $100
+    7 FOR I INTENSITY ARRAY! NEXT 
+;
+
+
+: ADC-INIT ( -- ) \ initialize ADC1 
 
 ; 
 
-: READ-ADC ( ch -- n ) \ analog read channel ch
+: ADC-READ ( ch -- n ) \ analog read channel ch
 
 ;
 
@@ -62,14 +86,12 @@ VARIABLE PHASE \ supernova wave phase
   DUP 
   PHASE + 
   8 MOD 
-  2* 
-  INTENSITY + 
-  @ 
+  INTENSITY ARRAY@  
   RING-LEVEL 
 ; 
 
 
-: INIT-TIMERS ( -- ) \ initialize TIMER1, TIMER2 and TIMER3 in PMW mode.
+: TIMERS-INIT ( -- ) \ initialize TIMER1, TIMER2 and TIMER3 in PMW mode.
 \ TIMER3 CH1 & CH2  RINGS 7,8
     4 T3-PSCR C! \ prescale DIV 16, flcok=16Mhz/8=1Mhz
     50 PWM-PER T3-ARRH R16!
@@ -110,23 +132,27 @@ VARIABLE PHASE \ supernova wave phase
 ;
 
 : APP-INIT ( -- ) \ initialize application peripherals.
-    INIT-ADC
-    INIT-TIMERS
+    ADC-INIT
+    TIMERS-INIT
 ;
 
 
-: PHASE-STEP 
-    PHASE C@ 1+ 
+: CYCLE-STEP 
+    PHASE DUP @ 1+ 
     8 MOD 
-    PHASE C!
+    SWAP !
 ;
 
 : NOVA 
+    VARIABLE PHASE
+    8 ARRAY INTENSITY \ ring light level
+    INTENSITY-INIT
     APP-INIT 
     BEGIN
-    READ-ADC 
-    16 / 
-    7 FOR I RING-PHASE DUP PAUSE PHASE-STEP NEXT
+    ADC-READ 
+    16 / \ step delay 
+    7 FOR I RING-PHASE DUP PAUSE CYCLE-STEP NEXT
+    500 PAUSE \ cycle pause
     AGAIN
 ;
 
