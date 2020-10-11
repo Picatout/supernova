@@ -19,7 +19,15 @@
 \ *****************************************
 
 \ FORGET OLD VERSION
-FORGET R16!
+FORGET BSET
+
+\ set register bit
+: BSET ( b a -- )
+    DUP C@ ROT 1 SWAP LSHIFT OR SWAP C! ;
+
+\ read register bit
+: BREAD ( b a -- 0|1 )
+    OVER >R C@ 1 ROT LSHIFT AND R> RSHIFT ;
 
 \ set 16 bits register value
 : R16! ( n a -- )
@@ -40,7 +48,6 @@ FORGET R16!
     + ( -- u ) \ nearest integer
 ; 
 
-
 : ARRAY ( size -- ; string ) \ create an array, not initialized 
     HERE 
     DUP 
@@ -53,48 +60,66 @@ FORGET R16!
     , 
 ; 
 
+: EL-ADR ( idx a1 -- a2 ) \ compute array element address
+    SWAP 2* + 
+;
+ 
 : ARRAY! ( n idx a -- ) \ store value n in a[idx]
-    SWAP 2* + !
+    EL-ADR !
 ;
 
 : ARRAY@ ( idx a -- n ) \ fetch value in a[idx]
-    SWAP 2* + @
+    EL-ADR @
 ;
 
 
-
-
 : INTENSITY-INIT ( -- ) \ initialize intensity table 
-    $FFFF $8000 $4000 $2000 $1000 $800 $400 $100
-    7 FOR I INTENSITY ARRAY! NEXT 
+    $FFFF $8000 $4000 $2000 $1000 $800 $400 $100 0
+    8 FOR I INTENSITY ARRAY! NEXT 
 ;
 
 
 : ADC-INIT ( -- ) \ initialize ADC1 
-
+    $41 ADC-CR1 C! \ Fclk_adc=Fclk_master/8
 ; 
 
 : ADC-READ ( ch -- n ) \ analog read channel ch
-
+  0 ADC-CR1 BSET
+  BEGIN 0 ADC-CR1 BREAD NOT UNTIL
+  ADC-DRH C@  256 * ADC-DRL C@ + 
 ;
 
-: RING-LEVEL ( r level -- ) \ set light level of ring r 
-    
+: CCR! ( u1 u2 u3 -- ) \ u1=duty cycle, u2=Tx-CCR1H, u3 Tx-channel
+\ Store u1 value in Tx-CCR register
+    2* + R16!
 ;
 
-: RING-PHASE ( r -- ) \ select ring ligth level
-  DUP 
-  PHASE + 
-  8 MOD 
-  INTENSITY ARRAY@  
+: RING-LEVEL ( r dc -- ) \ set light level of ring r 
+    SWAP DUP
+    4 - 0< IF 
+    T1-CCR1H SWAP CCR!
+    $1F T1-EGR C! \ update channels 0,1,2,3
+    ELSE
+    DUP 6 - 0< IF
+    4 - 
+    T2-CCR1H SWAP CCR! 
+    7 T2-EGR C! \ update channels 4,5
+    ELSE
+    6 -
+    T3-CCR1H SWAP CCR!
+    7 T3-EGR C! \ update channels 6,7
+    THEN
+;
+
+: LED-INTENSITY ( r -- ) \ r is ring number {0..8}
+  DUP
+  INTENSITY ARRAY@ \ duty cycle value 
   RING-LEVEL 
-; 
-
+;
 
 : TIMERS-INIT ( -- ) \ initialize TIMER1, TIMER2 and TIMER3 in PMW mode.
 \ TIMER3 CH1 & CH2  RINGS 7,8
-    4 T3-PSCR C! \ prescale DIV 16, flcok=16Mhz/8=1Mhz
-    50 PWM-PER T3-ARRH R16!
+    $FFFF PWM-PER T3-ARRH R16!
     0 T3-CCR1H R16! \ ring 7 off
     0 T3-CCR2H R16! \ ring 8 off 
     $D 3 LSHIFT T3-CCMR1 C! \ CH1 MODE PWM 
@@ -103,8 +128,7 @@ FORGET R16!
     7 T3-EGR C! \ update CCR1,2 registers 
     1 T3-CR1 C! \ enable T3 counter 
 \ TIMER2 CH1 & CH2 RINGS 5,6 
-    4 T2-PSCR C! \ prescale DIV 16, Fclock=16Mhz/8=1Mhz 
-    50 PWM-PER T2-ARRH R16! \ period 
+    $FFFF PWM-PER T2-ARRH R16! \ period 
     0 T2-CCR1H R16! \ RING 5 OFF
     0 T2-CCR2H R16! \ RING 6 OFF 
     $D 3 LSHIFT T2-CCMR1 C! \ CH1 MODE PWM 
@@ -113,8 +137,7 @@ FORGET R16!
     7 T2-EGR C! \ update CCR1,2 registers 
     1 T2-CR1 C! \ enable T2 counter 
 \ TIMER1 CH1,CH2,CH3,CH4 RINGS 1,2,3,4
-    16 T1-PSCRH R16! \  PRESCALE DIVISOR
-    50 PWM-PER T1-ARRH R16! 
+    $FFFF PWM-PER T1-ARRH R16! 
 \ rings 1,2,3,4 off 
     0 T1-CCR1H R16! 
     0 T1-CCR2H R16!
@@ -123,15 +146,16 @@ FORGET R16!
     $D 3 LSHIFT T1-CCMR1 C!
     $D 3 LSHIFT T1-CCMR2 C!
     $D 3 LSHIFT T1-CCMR3 C!
-    $d 3 LSHIFT T1-CCMR4 C!
+    $D 3 LSHIFT T1-CCMR4 C!
     $11 T1-CCER1 C! \ ENABLE CH1,CH2
     $11 T1-CCER2 C! \ ENABLE CH3,CH4    
     $80 T1-BKR C! \ MAIN OUTPUT ENABLE
-    15 T1-EGR C! \ update CCR1,2,3,4
+    $1F T1-EGR C! \ update CCR1,2,3,4
     1 T1-CR1 C! \ ENABLE T1 COUNTER
 ;
 
 : APP-INIT ( -- ) \ initialize application peripherals.
+    INTENSITY-INIT
     ADC-INIT
     TIMERS-INIT
 ;
@@ -139,20 +163,24 @@ FORGET R16!
 
 : CYCLE-STEP 
     PHASE DUP @ 1+ 
-    8 MOD 
+    9 MOD 
     SWAP !
 ;
 
 : NOVA 
-    VARIABLE PHASE
-    8 ARRAY INTENSITY \ ring light level
-    INTENSITY-INIT
+    VARIABLE PHASE \ cycle phase
+    9 ARRAY INTENSITY \ ring light level
     APP-INIT 
     BEGIN
     ADC-READ 
-    16 / \ step delay 
-    7 FOR I RING-PHASE DUP PAUSE CYCLE-STEP NEXT
+    16 / \ step delay value
+    8 FOR 
+        8 I - DUP LED-INTENSITY \ turn on ring
+        OVER PAUSE \ step delay 
+        0 RING-LEVEL \ turn off ring
+      NEXT
     500 PAUSE \ cycle pause
     AGAIN
 ;
+
 

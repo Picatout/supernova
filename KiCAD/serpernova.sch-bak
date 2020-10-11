@@ -1835,9 +1835,9 @@ Text Label 2350 5250 2    50   ~ 0
 ring5
 Text Label 2350 5150 2    50   ~ 0
 ring6
-Text Label 2350 5050 2    50   ~ 0
-ring8
 Text Label 2350 4850 2    50   ~ 0
+ring8
+Text Label 2350 5050 2    50   ~ 0
 ring7
 Text Label 2350 4950 2    50   ~ 0
 SWIM
