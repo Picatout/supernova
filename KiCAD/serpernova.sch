@@ -2018,4 +2018,43 @@ Connection ~ 10200 2300
 Wire Wire Line
 	10200 4800 10200 4050
 Connection ~ 10200 4050
+$Comp
+L Connector:Conn_01x07_Male J1
+U 1 1 5F84B0EE
+P 850 4050
+F 0 "J1" H 958 4531 50  0000 C CNN
+F 1 "interface" V 750 4050 50  0000 C CNN
+F 2 "" H 850 4050 50  0001 C CNN
+F 3 "~" H 850 4050 50  0001 C CNN
+	1    850  4050
+	1    0    0    -1  
+$EndComp
+Text Label 1050 4050 0    50   ~ 0
++5V
+$Comp
+L power:GND #PWR?
+U 1 1 5F8566E6
+P 1600 4150
+F 0 "#PWR?" H 1600 3900 50  0001 C CNN
+F 1 "GND" H 1605 3977 50  0000 C CNN
+F 2 "" H 1600 4150 50  0001 C CNN
+F 3 "" H 1600 4150 50  0001 C CNN
+	1    1600 4150
+	1    0    0    -1  
+$EndComp
+Text Label 1050 3850 0    50   ~ 0
+SWIM
+Text Label 1050 3750 0    79   ~ 0
+~rst
+Text Label 1050 4250 0    50   ~ 0
+RS232_TX
+Text Label 1050 4350 0    50   ~ 0
+RS232_RX
+Wire Wire Line
+	1050 4150 1600 4150
+Wire Wire Line
+	1600 3950 1600 4150
+Wire Wire Line
+	1050 3950 1600 3950
+Connection ~ 1600 4150
 $EndSCHEMATC
