@@ -1737,164 +1737,10 @@ Text Label 2350 5450 2    50   ~ 0
 MCU_RX
 Text Label 2350 5350 2    50   ~ 0
 MCU_TX
-$Comp
-L Transistor_BJT:2N3904 Q1
-U 1 1 5FE44A2B
-P 2400 2250
-F 0 "Q1" H 2590 2296 50  0000 L CNN
-F 1 "2N3904" H 2590 2205 50  0000 L CNN
-F 2 "Package_TO_SOT_THT:TO-92_Inline" H 2600 2175 50  0001 L CIN
-F 3 "https://www.fairchildsemi.com/datasheets/2N/2N3904.pdf" H 2400 2250 50  0001 L CNN
-	1    2400 2250
-	1    0    0    -1  
-$EndComp
-$Comp
-L Transistor_BJT:2N3906 Q2
-U 1 1 5FE461F0
-P 3350 1100
-F 0 "Q2" H 3540 1054 50  0000 L CNN
-F 1 "2N3906" H 3540 1145 50  0000 L CNN
-F 2 "Package_TO_SOT_THT:TO-92_Inline" H 3550 1025 50  0001 L CIN
-F 3 "https://www.fairchildsemi.com/datasheets/2N/2N3906.pdf" H 3350 1100 50  0001 L CNN
-	1    3350 1100
-	1    0    0    1   
-$EndComp
-$Comp
-L Device:R R2
-U 1 1 5FE5B695
-P 1850 2250
-F 0 "R2" V 1643 2250 50  0000 C CNN
-F 1 "10K" V 1734 2250 50  0000 C CNN
-F 2 "" V 1780 2250 50  0001 C CNN
-F 3 "~" H 1850 2250 50  0001 C CNN
-	1    1850 2250
-	0    1    1    0   
-$EndComp
-$Comp
-L pspice:DIODE D2
-U 1 1 5FE5CF91
-P 1700 2700
-F 0 "D2" V 1746 2572 50  0000 R CNN
-F 1 "1N4148" V 1655 2572 50  0000 R CNN
-F 2 "" H 1700 2700 50  0001 C CNN
-F 3 "~" H 1700 2700 50  0001 C CNN
-	1    1700 2700
-	0    -1   -1   0   
-$EndComp
-$Comp
-L Device:CP C1
-U 1 1 5FE5E6B7
-P 1700 3200
-F 0 "C1" H 1582 3154 50  0000 R CNN
-F 1 "10µF/25v" H 1582 3245 50  0000 R CNN
-F 2 "" H 1738 3050 50  0001 C CNN
-F 3 "~" H 1700 3200 50  0001 C CNN
-	1    1700 3200
-	-1   0    0    1   
-$EndComp
-$Comp
-L power:GND #PWR01
-U 1 1 5FE5F3E3
-P 1700 3350
-F 0 "#PWR01" H 1700 3100 50  0001 C CNN
-F 1 "GND" H 1705 3177 50  0000 C CNN
-F 2 "" H 1700 3350 50  0001 C CNN
-F 3 "" H 1700 3350 50  0001 C CNN
-	1    1700 3350
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	1700 2900 1700 2950
-Wire Wire Line
-	1700 2250 1700 2500
-Wire Wire Line
-	2000 2250 2200 2250
-$Comp
-L Device:R R4
-U 1 1 5FE98402
-P 2500 1750
-F 0 "R4" H 2430 1704 50  0000 R CNN
-F 1 "4K7" H 2430 1795 50  0000 R CNN
-F 2 "" V 2430 1750 50  0001 C CNN
-F 3 "~" H 2500 1750 50  0001 C CNN
-	1    2500 1750
-	-1   0    0    1   
-$EndComp
-$Comp
-L power:GND #PWR03
-U 1 1 5FEAD6AB
-P 2500 2450
-F 0 "#PWR03" H 2500 2200 50  0001 C CNN
-F 1 "GND" H 2505 2277 50  0000 C CNN
-F 2 "" H 2500 2450 50  0001 C CNN
-F 3 "" H 2500 2450 50  0001 C CNN
-	1    2500 2450
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	2500 1900 2500 2000
-Text Label 2650 2000 0    50   ~ 0
+Text Label 2750 2600 0    50   ~ 0
 MCU_RX
-Text Label 2500 1600 2    50   ~ 0
-+5V
-Wire Wire Line
-	1450 2250 1700 2250
-Connection ~ 1700 2250
-Text Label 1450 2250 2    79   ~ 0
-RS232_TX
-Text Label 1900 2950 0    50   ~ 0
-RS232_V-
-Wire Wire Line
-	1900 2950 1700 2950
-Connection ~ 1700 2950
-Wire Wire Line
-	1700 2950 1700 3050
-Wire Wire Line
-	2650 2000 2500 2000
-Connection ~ 2500 2000
-Wire Wire Line
-	2500 2000 2500 2050
-$Comp
-L Device:R R6
-U 1 1 5FF05812
-P 3450 1650
-F 0 "R6" H 3380 1604 50  0000 R CNN
-F 1 "3K3" H 3380 1695 50  0000 R CNN
-F 2 "" V 3380 1650 50  0001 C CNN
-F 3 "~" H 3450 1650 50  0001 C CNN
-	1    3450 1650
-	-1   0    0    1   
-$EndComp
-Text Label 3450 2050 0    50   ~ 0
-RS232_V-
-Wire Wire Line
-	3450 1800 3450 2050
-Wire Wire Line
-	3450 1300 3450 1400
-Text Label 3650 1400 0    50   ~ 0
-RS232_RX
-Wire Wire Line
-	3650 1400 3450 1400
-Connection ~ 3450 1400
-Wire Wire Line
-	3450 1400 3450 1500
-Text Label 3450 900  2    50   ~ 0
-+5V
-$Comp
-L Device:R R5
-U 1 1 5FF46E9F
-P 3000 1100
-F 0 "R5" V 3207 1100 50  0000 C CNN
-F 1 "1K" V 3116 1100 50  0000 C CNN
-F 2 "" V 2930 1100 50  0001 C CNN
-F 3 "~" H 3000 1100 50  0001 C CNN
-	1    3000 1100
-	0    -1   -1   0   
-$EndComp
-Text Label 2750 1100 2    50   ~ 0
+Text Label 2750 2500 0    50   ~ 0
 MCU_TX
-Wire Wire Line
-	2750 1100 2850 1100
 Text Notes 7200 6950 0    98   ~ 0
 SUPERNOVA \nCOPYRIGHT Jacques Deschenes, 2020
 $Comp
@@ -1993,42 +1839,38 @@ Connection ~ 10200 4050
 $Comp
 L Connector:Conn_01x07_Male J1
 U 1 1 5F84B0EE
-P 850 4050
-F 0 "J1" H 958 4531 50  0000 C CNN
-F 1 "interface" V 750 4050 50  0000 C CNN
-F 2 "" H 850 4050 50  0001 C CNN
-F 3 "~" H 850 4050 50  0001 C CNN
-	1    850  4050
+P 2550 2300
+F 0 "J1" H 2658 2781 50  0000 C CNN
+F 1 "interface" V 2450 2300 50  0000 C CNN
+F 2 "" H 2550 2300 50  0001 C CNN
+F 3 "~" H 2550 2300 50  0001 C CNN
+	1    2550 2300
 	1    0    0    -1  
 $EndComp
-Text Label 1050 4050 0    50   ~ 0
+Text Label 2750 2300 0    50   ~ 0
 +5V
 $Comp
 L power:GND #PWR?
 U 1 1 5F8566E6
-P 1600 4150
-F 0 "#PWR?" H 1600 3900 50  0001 C CNN
-F 1 "GND" H 1605 3977 50  0000 C CNN
-F 2 "" H 1600 4150 50  0001 C CNN
-F 3 "" H 1600 4150 50  0001 C CNN
-	1    1600 4150
+P 3300 2400
+F 0 "#PWR?" H 3300 2150 50  0001 C CNN
+F 1 "GND" H 3305 2227 50  0000 C CNN
+F 2 "" H 3300 2400 50  0001 C CNN
+F 3 "" H 3300 2400 50  0001 C CNN
+	1    3300 2400
 	1    0    0    -1  
 $EndComp
-Text Label 1050 3850 0    50   ~ 0
+Text Label 2750 2100 0    50   ~ 0
 SWIM
-Text Label 1050 3750 0    79   ~ 0
+Text Label 2750 2000 0    79   ~ 0
 ~rst
-Text Label 1050 4250 0    50   ~ 0
-RS232_TX
-Text Label 1050 4350 0    50   ~ 0
-RS232_RX
 Wire Wire Line
-	1050 4150 1600 4150
+	2750 2400 3300 2400
 Wire Wire Line
-	1600 3950 1600 4150
+	3300 2200 3300 2400
 Wire Wire Line
-	1050 3950 1600 3950
-Connection ~ 1600 4150
+	2750 2200 3300 2200
+Connection ~ 3300 2400
 Connection ~ 2850 6600
 Wire Wire Line
 	2850 6600 3050 6600

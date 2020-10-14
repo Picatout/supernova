@@ -6,3 +6,6 @@ Sculpture électronique constitué de 8 anneaux concentriques. Chaque anneau com
 
 ![supernova schematic](docs/supernova-schematic.png)
 
+## assemblage électronique sur base en chaîne rouge
+
+![base assembly](base-assembly.png)
