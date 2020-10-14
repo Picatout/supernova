@@ -8,4 +8,4 @@ Sculpture électronique constitué de 8 anneaux concentriques. Chaque anneau com
 
 ## assemblage électronique sur base en chaîne rouge
 
-![base assembly](base-assembly.png)
+![base assembly](docs/base-assembly.png)
