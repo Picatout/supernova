@@ -1,0 +1,216 @@
+EESchema Schematic File Version 4
+EELAYER 30 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 1 1
+Title ""
+Date ""
+Rev ""
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+$Comp
+L Transistor_BJT:2N3904 Q?
+U 1 1 5F8717FA
+P 6900 3950
+F 0 "Q?" H 7090 3996 50  0000 L CNN
+F 1 "2N3904" H 7090 3905 50  0000 L CNN
+F 2 "Package_TO_SOT_THT:TO-92_Inline" H 7100 3875 50  0001 L CIN
+F 3 "https://www.fairchildsemi.com/datasheets/2N/2N3904.pdf" H 6900 3950 50  0001 L CNN
+	1    6900 3950
+	1    0    0    -1  
+$EndComp
+$Comp
+L Transistor_BJT:2N3906 Q?
+U 1 1 5F871F1A
+P 6900 5150
+F 0 "Q?" H 7090 5104 50  0000 L CNN
+F 1 "2N3906" H 7090 5195 50  0000 L CNN
+F 2 "Package_TO_SOT_THT:TO-92_Inline" H 7100 5075 50  0001 L CIN
+F 3 "https://www.fairchildsemi.com/datasheets/2N/2N3906.pdf" H 6900 5150 50  0001 L CNN
+	1    6900 5150
+	1    0    0    1   
+$EndComp
+$Comp
+L power:GND #PWR?
+U 1 1 5F874A9A
+P 7000 4150
+F 0 "#PWR?" H 7000 3900 50  0001 C CNN
+F 1 "GND" H 7005 3977 50  0000 C CNN
+F 2 "" H 7000 4150 50  0001 C CNN
+F 3 "" H 7000 4150 50  0001 C CNN
+	1    7000 4150
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R R?
+U 1 1 5F874E31
+P 6550 3950
+F 0 "R?" V 6343 3950 50  0000 C CNN
+F 1 "10K" V 6434 3950 50  0000 C CNN
+F 2 "" V 6480 3950 50  0001 C CNN
+F 3 "~" H 6550 3950 50  0001 C CNN
+	1    6550 3950
+	0    1    1    0   
+$EndComp
+$Comp
+L Device:D D?
+U 1 1 5F87514A
+P 6100 4100
+F 0 "D?" V 6054 4180 50  0000 L CNN
+F 1 "1N4148" V 6145 4180 50  0000 L CNN
+F 2 "" H 6100 4100 50  0001 C CNN
+F 3 "~" H 6100 4100 50  0001 C CNN
+	1    6100 4100
+	0    1    1    0   
+$EndComp
+$Comp
+L Device:CP C?
+U 1 1 5F875ADD
+P 6100 4400
+F 0 "C?" H 5982 4354 50  0000 R CNN
+F 1 "10µF/25V" H 5982 4445 50  0000 R CNN
+F 2 "" H 6138 4250 50  0001 C CNN
+F 3 "~" H 6100 4400 50  0001 C CNN
+	1    6100 4400
+	-1   0    0    1   
+$EndComp
+$Comp
+L power:GND #PWR?
+U 1 1 5F876264
+P 6100 4550
+F 0 "#PWR?" H 6100 4300 50  0001 C CNN
+F 1 "GND" H 6105 4377 50  0000 C CNN
+F 2 "" H 6100 4550 50  0001 C CNN
+F 3 "" H 6100 4550 50  0001 C CNN
+	1    6100 4550
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R R?
+U 1 1 5F8767DD
+P 7000 5650
+F 0 "R?" H 7070 5696 50  0000 L CNN
+F 1 "3K3" H 7070 5605 50  0000 L CNN
+F 2 "" V 6930 5650 50  0001 C CNN
+F 3 "~" H 7000 5650 50  0001 C CNN
+	1    7000 5650
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R R?
+U 1 1 5F877106
+P 6550 5150
+F 0 "R?" V 6343 5150 50  0000 C CNN
+F 1 "1K" V 6434 5150 50  0000 C CNN
+F 2 "" V 6480 5150 50  0001 C CNN
+F 3 "~" H 6550 5150 50  0001 C CNN
+	1    6550 5150
+	0    1    1    0   
+$EndComp
+$Comp
+L Device:R R?
+U 1 1 5F877A27
+P 7000 3600
+F 0 "R?" H 7070 3646 50  0000 L CNN
+F 1 "4K7" H 7070 3555 50  0000 L CNN
+F 2 "" V 6930 3600 50  0001 C CNN
+F 3 "~" H 7000 3600 50  0001 C CNN
+	1    7000 3600
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	7000 5350 7000 5400
+Wire Wire Line
+	6100 3950 6400 3950
+Wire Wire Line
+	7000 5800 5500 5800
+Wire Wire Line
+	5500 5800 5500 4250
+Wire Wire Line
+	5500 4250 6100 4250
+Connection ~ 6100 4250
+Text Label 7000 4950 0    79   ~ 0
+V+
+Text Label 7000 3450 0    79   ~ 0
+V+
+Text Label 5950 3950 2    50   ~ 0
+RS-232_TX
+Text Label 7250 3750 0    50   ~ 0
+MCU_RX
+Wire Wire Line
+	7250 3750 7000 3750
+Connection ~ 7000 3750
+Text Label 7200 5400 0    50   ~ 0
+RS-232_RX
+Wire Wire Line
+	7200 5400 7000 5400
+Connection ~ 7000 5400
+Wire Wire Line
+	7000 5400 7000 5500
+Text Label 6300 5150 2    50   ~ 0
+MCU_TX
+$Comp
+L power:GND #PWR?
+U 1 1 5F87E52F
+P 4850 4150
+F 0 "#PWR?" H 4850 3900 50  0001 C CNN
+F 1 "GND" H 4855 3977 50  0000 C CNN
+F 2 "" H 4850 4150 50  0001 C CNN
+F 3 "" H 4850 4150 50  0001 C CNN
+	1    4850 4150
+	1    0    0    -1  
+$EndComp
+$Comp
+L Connector:Conn_01x05_Male J?
+U 1 1 5F87EEEC
+P 5700 5050
+F 0 "J?" H 5808 5431 50  0000 C CNN
+F 1 "MCU" V 5600 5050 50  0000 C CNN
+F 2 "" H 5700 5050 50  0001 C CNN
+F 3 "~" H 5700 5050 50  0001 C CNN
+	1    5700 5050
+	1    0    0    1   
+$EndComp
+Text Label 4850 4050 0    50   ~ 0
+RS-232_RX
+$Comp
+L Connector:Conn_01x03_Male J?
+U 1 1 5F87DAFD
+P 4650 4050
+F 0 "J?" H 4758 4331 50  0000 C CNN
+F 1 "RS-232" V 4550 4050 50  0000 C CNN
+F 2 "" H 4650 4050 50  0001 C CNN
+F 3 "~" H 4650 4050 50  0001 C CNN
+	1    4650 4050
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR?
+U 1 1 5F889D18
+P 5900 4850
+F 0 "#PWR?" H 5900 4600 50  0001 C CNN
+F 1 "GND" V 5905 4722 50  0000 R CNN
+F 2 "" H 5900 4850 50  0001 C CNN
+F 3 "" H 5900 4850 50  0001 C CNN
+	1    5900 4850
+	0    -1   -1   0   
+$EndComp
+Text Label 5900 5250 0    50   ~ 0
+V+
+Wire Wire Line
+	4850 3950 6100 3950
+Connection ~ 6100 3950
+Text Label 5900 4950 0    50   ~ 0
+MCU_RX
+Wire Wire Line
+	5900 5150 6400 5150
+Text Label 5900 5050 0    50   ~ 0
+nc
+Text Notes 7200 7000 0    98   ~ 0
+RS-232 level adaptor\n2020-10-14
+$EndSCHEMATC

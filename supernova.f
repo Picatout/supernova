@@ -18,20 +18,44 @@
 \ ADC AN0 RV1 INPUT SPEED CONTROL
 \ *****************************************
 
+TO-FLASH 
+
 \ FORGET OLD VERSION
-FORGET BSET
+\ FORGET BSET
+
 
 \ set register bit
 : BSET ( b a -- )
-    DUP C@ ROT 1 SWAP LSHIFT OR SWAP C! ;
+    DUP 
+    C@ 
+    ROT 1 
+    SWAP 
+    LSHIFT 
+    OR 
+    SWAP 
+    C!
+;
 
 \ read register bit
 : BREAD ( b a -- 0|1 )
-    OVER >R C@ 1 ROT LSHIFT AND R> RSHIFT ;
+    OVER 
+    >R 
+    C@ 
+    1 
+    ROT 
+    LSHIFT 
+    AND 
+    R> 
+    RSHIFT 
+;
 
 \ set 16 bits register value
 : R16! ( n a -- )
-    OVER 8 RSHIFT OVER C! 1+ C! ;
+    OVER 
+    8 RSHIFT 
+    OVER C! 
+    1+ C! 
+;
 
 \ compute ARR value from frequency
 : PWM-PER ( fr -- u )
@@ -57,7 +81,17 @@ FORGET BSET
     VP 
     ! 
     CREATE 
-    , 
+    ,
+    FMOVE
+    ?DUP 
+    IF 
+    UPDAT-VP
+    UPDAT-PTR
+    ELSE
+    LAST 
+    RAMLAST
+    !
+    THEN 
 ; 
 
 : EL-ADR ( idx a1 -- a2 ) \ compute array element address
@@ -73,11 +107,8 @@ FORGET BSET
 ;
 
 
-: INTENSITY-INIT ( -- ) \ initialize intensity table 
-    $FFFF $8000 $4000 $2000 $1000 $800 $400 $100 0
-    8 FOR I INTENSITY ARRAY! NEXT 
-;
-
+VARIABLE PHASE \ cycle phase
+9 ARRAY INTENSITY \ ring light level
 
 : ADC-INIT ( -- ) \ initialize ADC1 
     $41 ADC-CR1 C! \ Fclk_adc=Fclk_master/8
@@ -108,6 +139,7 @@ FORGET BSET
     6 -
     T3-CCR1H SWAP CCR!
     7 T3-EGR C! \ update channels 6,7
+    THEN
     THEN
 ;
 
@@ -154,6 +186,21 @@ FORGET BSET
     1 T1-CR1 C! \ ENABLE T1 COUNTER
 ;
 
+: INTENSITY-INIT ( -- ) \ initialize intensity table 
+\ stack those constants for intensity-init 
+    $FFFF 
+    $8000 
+    $4000 
+    $2000 
+    $1000 
+    $800 
+    $400 
+    $100 
+    0
+    8 FOR I INTENSITY ARRAY! NEXT 
+;
+
+
 : APP-INIT ( -- ) \ initialize application peripherals.
     INTENSITY-INIT
     ADC-INIT
@@ -168,19 +215,18 @@ FORGET BSET
 ;
 
 : NOVA 
-    VARIABLE PHASE \ cycle phase
-    9 ARRAY INTENSITY \ ring light level
     APP-INIT 
     BEGIN
     ADC-READ 
     16 / \ step delay value
-    8 FOR 
-        8 I - DUP LED-INTENSITY \ turn on ring
+    7 FOR 
+        7 I - DUP LED-INTENSITY \ turn on ring
         OVER PAUSE \ step delay 
         0 RING-LEVEL \ turn off ring
       NEXT
+    DROP  
     500 PAUSE \ cycle pause
-    AGAIN
+    ?KEY UNTIL DROP
 ;
 
 

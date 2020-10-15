@@ -1,0 +1,4 @@
+#!/bin/bash
+cd stm8_eForth
+make -fstm8s105k6.mk clear_eevars
+cd ..
