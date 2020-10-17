@@ -1897,4 +1897,17 @@ Connection ~ 2950 4000
 Wire Wire Line
 	3500 4450 3750 4450
 Connection ~ 3500 4450
+$Comp
+L Device:R R19
+U 1 1 5F8BA078
+P 2750 2750
+F 0 "R19" H 2680 2704 50  0000 R CNN
+F 1 "33K" H 2680 2795 50  0000 R CNN
+F 2 "" V 2680 2750 50  0001 C CNN
+F 3 "~" H 2750 2750 50  0001 C CNN
+	1    2750 2750
+	-1   0    0    1   
+$EndComp
+Text Label 2750 2900 0    50   ~ 0
++5V
 $EndSCHEMATC
