@@ -21,7 +21,7 @@
 TO-FLASH 
 
 \ FORGET OLD VERSION
-\ FORGET BSET
+ FORGET BSET
 
 
 \ set register bit
@@ -117,7 +117,7 @@ VARIABLE PHASE \ cycle phase
 : ADC-READ ( ch -- n ) \ analog read channel ch
   0 ADC-CR1 BSET
   BEGIN 0 ADC-CR1 BREAD NOT UNTIL
-  ADC-DRH C@  256 * ADC-DRL C@ + 
+  ADC-DRH C@  4 * ADC-DRL C@ + 
 ;
 
 : CCR! ( u1 u2 u3 -- ) \ u1=duty cycle, u2=Tx-CCR1H, u3 Tx-channel
@@ -208,17 +208,34 @@ VARIABLE PHASE \ cycle phase
 ;
 
 
-: CYCLE-STEP 
+: PHASE-STEP 
     PHASE DUP @ 1+ 
-    9 MOD 
+    8 MOD 
     SWAP !
+;
+
+: ALL-OFF ( -- ) \ turn off all rings
+    7 FOR
+        I 0 RING-LEVEL
+    NEXT
+;
+
+: DELAY ( -- u ) \ get delay from potentiomer read. 
+    ADC-READ 0 SWAP 
+    BEGIN
+        ?DUP 
+    WHILE 
+        SWAP 1+ SWAP \ increment log counter
+        2/ 
+    REPEAT
+    8 * 
+    1 OR \ avoid 0 value. 
 ;
 
 : NOVA 
     APP-INIT 
     BEGIN
-    ADC-READ 
-    16 / \ step delay value
+    DELAY \ step delay value
     7 FOR 
         7 I - DUP LED-INTENSITY \ turn on ring
         OVER PAUSE \ step delay 
@@ -229,4 +246,49 @@ VARIABLE PHASE \ cycle phase
     ?KEY UNTIL DROP
 ;
 
+: TWINKLE \ blue star twinkling
+    APP-INIT
+    0 PHASE !
+    BEGIN
+        7 FOR
+            I PHASE @ + 8 MOD
+            LED-INTENSITY
+        NEXT
+        DELAY PAUSE
+        PHASE-STEP
+        ?KEY 
+    UNTIL
+    DROP
+    ALL-OFF
+;
+
+: ERASE-TRAIL
+    BEGIN
+        DUP 8 <
+    WHILE
+        DUP 0 RING-LEVEL
+        1+
+        OVER PAUSE
+    REPEAT
+    2DROP
+;
+
+: NOVA2 \ like NOVA but with a trail
+APP-INIT
+BEGIN
+    DELAY
+    0
+    7 FOR
+        7 I - DUP LED-INTENSITY
+        3 - 0< NOT IF
+            DUP 0 RING-LEVEL
+            1+
+        THEN
+        OVER PAUSE
+    NEXT
+    ERASE-TRAIL
+    ?KEY 
+UNTIL 
+DROP 
+;
 
